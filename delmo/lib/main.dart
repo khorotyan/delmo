@@ -21,7 +21,12 @@ class _MainState extends State<Main> {
           primarySwatch: Colors.red,
           accentColor: Colors.redAccent,
           buttonColor: Colors.redAccent),
-      routes: {'/': (BuildContext context) => AuthPage()},
+      routes: {
+        // Later check, if authenticated take to another screen else to auth page
+        '/': (BuildContext context) => AuthPage(isSignIn: true),
+        '/signin': (BuildContext context) => AuthPage(isSignIn: true),
+        '/signup': (BuildContext context) => AuthPage(isSignIn: false)
+      },
     );
   }
 }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AuthPage extends StatefulWidget {
+  final bool isSignIn;
+
+  AuthPage({this.isSignIn});
+
   @override
   State<StatefulWidget> createState() {
     return _AuthPageState();
@@ -18,6 +23,8 @@ class _AuthPageState extends State<AuthPage> {
   static const String _ageInputLabel = 'Age';
   static const String _emailInputLabel = 'Email';
   static const String _passwordInputLabel = 'Password';
+  static const String _signInName = 'SignIn';
+  static const String _signUpName = 'SignUp';
 
   final _formKey = GlobalKey<FormState>();
   final _nameInputFocusNode = FocusNode();
@@ -34,6 +41,8 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     _nameInputFocusNode.addListener(onNameInputFocus);
     _ageInputFocusNode.addListener(onAgeInputFocus);
     _emailInputFocusNode.addListener(onEmailInputFocus);
@@ -61,35 +70,89 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(image: _getBackgroundImage()),
-          padding: EdgeInsets.all(10.0),
-          child: Center(
-              child: SingleChildScrollView(
-                  child: Container(
-            width: _getAuthPageWidth(),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    _buildPageName(),
-                    SizedBox(height: 44.0),
-                    _buildNameInputField(),
-                    SizedBox(height: 32.0),
-                    _buildAgeInputField(),
-                    SizedBox(height: 32.0),
-                    _buildEmailInputField(),
-                    SizedBox(height: 32.0),
-                    _buildPasswordInputField(),
-                    SizedBox(height: 44.0),
-                    _buildButtomPanel()
-                  ],
-                )),
-          )))),
+    return Scaffold(body: _getScaffoldBody());
+  }
+
+  Widget _getScaffoldBody() {
+    return !widget.isSignIn
+        ? _getSignInScaffoldBody()
+        : _getSignUpScaffoldBody();
+  }
+
+  Widget _getSignInScaffoldBody() {
+    return Container(
+      alignment: Alignment(0.0, 0.0),
+      decoration: BoxDecoration(image: _getBackgroundImage()),
+      child: SingleChildScrollView(
+          child: Container(
+        alignment: Alignment(0.0, 0.0),
+        width: _getAuthPageWidth(),
+        child:
+            Form(key: _formKey, child: Column(children: _getSignInWidgets())),
+      )),
     );
+  }
+
+  Widget _getSignUpScaffoldBody() {
+    return Container(
+      alignment: Alignment(0.0, 0.0),
+      decoration: BoxDecoration(image: _getBackgroundImage()),
+      child: Column(children: <Widget>[
+        Spacer(),
+        Container(
+          alignment: Alignment(0.0, 0.0),
+          width: _getAuthPageWidth(),
+          child:
+              Form(key: _formKey, child: Column(children: _getSignUpWidgets())),
+        ),
+        Spacer(),
+        Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: _buildSignUpFooter())
+      ]),
+    );
+  }
+
+  List<Widget> _getSignInWidgets() {
+    return <Widget>[
+      SizedBox(height: 44.0),
+      _buildPageName(),
+      SizedBox(height: 44.0),
+      _buildNameInputField(),
+      SizedBox(height: 32.0),
+      _buildAgeInputField(),
+      SizedBox(height: 32.0),
+      _buildEmailInputField(),
+      SizedBox(height: 32.0),
+      _buildPasswordInputField(),
+      SizedBox(height: 44.0),
+      _buildButtomPanel(),
+      SizedBox(height: 44.0)
+    ];
+  }
+
+  List<Widget> _getSignUpWidgets() {
+    return <Widget>[
+      _buildPageName(),
+      SizedBox(height: 44.0),
+      _buildEmailInputField(),
+      SizedBox(height: 32.0),
+      _buildPasswordInputField(),
+      SizedBox(height: 44.0),
+      _buildButtomPanel()
+    ];
+  }
+
+  Widget _buildSignUpFooter() {
+    return Container(
+        height: 36.0,
+        child: ButtonTheme(
+            minWidth: double.maxFinite,
+            child: FlatButton(
+                color: Colors.black.withOpacity(0.1),
+                child: Text("Don't have an account? Sign up",
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () => Navigator.pushNamed(context, '/signup'))));
   }
 
   double _getAuthPageWidth() {
@@ -109,7 +172,9 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Text _buildPageName() {
-    return Text('SignUp',
+    final _pageName = widget.isSignIn ? _signInName : _signUpName;
+
+    return Text(_pageName,
         style: TextStyle(fontSize: 36.0, color: Colors.white));
   }
 
@@ -242,17 +307,23 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Row _buildButtomPanel() {
+    Widget _secondRowWidget = widget.isSignIn
+        ? _buildForgotPasswordButton()
+        : _buildAlreadyAMemberButton();
+
     return Row(
-        children: <Widget>[_buildSignupButton(), _buildAlreadyAMemberButton()],
+        children: <Widget>[_buildSignupButton(), _secondRowWidget],
         mainAxisAlignment: MainAxisAlignment.spaceBetween);
   }
 
   ButtonTheme _buildSignupButton() {
+    final _buttonName = widget.isSignIn ? _signInName : _signUpName;
+
     return ButtonTheme(
         minWidth: 104.0,
         height: 44.0,
         child: RaisedButton(
-            child: Text('SignUp',
+            child: Text(_buttonName,
                 style: TextStyle(color: Colors.white, fontSize: 18.0)),
             onPressed: () => _onSignupClick()));
   }
@@ -268,6 +339,12 @@ class _AuthPageState extends State<AuthPage> {
   FlatButton _buildAlreadyAMemberButton() {
     return FlatButton(
         child: Text('Already a member?', style: TextStyle(color: Colors.white)),
+        onPressed: () => Navigator.pushNamed(context, '/signin'));
+  }
+
+  FlatButton _buildForgotPasswordButton() {
+    return FlatButton(
+        child: Text('Forgot password?', style: TextStyle(color: Colors.white)),
         onPressed: () {});
   }
 }
