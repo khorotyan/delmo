@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'index.dart';
 
 class AuthPage extends StatefulWidget {
   final bool isSignIn;
@@ -21,7 +22,7 @@ class _AuthPageState extends State<AuthPage> {
   static const Color _selectedEditColor = Colors.white;
   static const String _nameInputLabel = 'First Name';
   static const String _ageInputLabel = 'Age';
-  static const String _emailInputLabel = 'Email';
+  static const String _emailInputLabel = 'Email Address';
   static const String _passwordInputLabel = 'Password';
   static const String _signInName = 'SignIn';
   static const String _signUpName = 'SignUp';
@@ -345,6 +346,6 @@ class _AuthPageState extends State<AuthPage> {
   FlatButton _buildForgotPasswordButton() {
     return FlatButton(
         child: Text('Forgot password?', style: TextStyle(color: Colors.white)),
-        onPressed: () {});
+        onPressed: () => Navigator.pushNamed(context, '/forgotPassword'));
   }
 }
