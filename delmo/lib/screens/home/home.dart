@@ -86,9 +86,6 @@ class _HomeState extends State<Home> {
   }
 
   void _onBackClick() {
-    _pageController.previousPage(
-        duration: Duration(milliseconds: 300), curve: Curves.ease);
-
     int pageNum = 0;
 
     if (pageHistory.length > 0) {
@@ -98,6 +95,9 @@ class _HomeState extends State<Home> {
         pageNum = pageHistory[pageHistory.length - 1];
       }
     }
+
+    _pageController.animateToPage(pageNum,
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
 
     setState(() {
       _currentPage = pageNum;
