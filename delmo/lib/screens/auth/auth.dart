@@ -327,11 +327,11 @@ class _AuthPageState extends State<AuthPage> {
         : _buildAlreadyAMemberButton();
 
     return Row(
-        children: <Widget>[_buildSignupButton(), _secondRowWidget],
+        children: <Widget>[_buildAuthButton(), _secondRowWidget],
         mainAxisAlignment: MainAxisAlignment.spaceBetween);
   }
 
-  ButtonTheme _buildSignupButton() {
+  ButtonTheme _buildAuthButton() {
     final _buttonName = widget.isSignIn ? _signInName : _signUpName;
 
     return ButtonTheme(
@@ -340,14 +340,18 @@ class _AuthPageState extends State<AuthPage> {
         child: RaisedButton(
             child: Text(_buttonName,
                 style: TextStyle(color: Colors.white, fontSize: 18.0)),
-            onPressed: () => _onSignupClick()));
+            onPressed: () => _onAuthClick()));
   }
 
-  void _onSignupClick() {
+  void _onAuthClick() {
     _formKey.currentState.save();
 
     if (!_formKey.currentState.validate()) {
       return;
+    }
+
+    if (widget.isSignIn) {
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
