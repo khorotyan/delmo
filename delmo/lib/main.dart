@@ -23,9 +23,9 @@ class _MainState extends State<Main> {
           buttonColor: Colors.redAccent),
       routes: {
         // Later check, if authenticated take to another screen else to auth page
-        '/': (BuildContext context) => AuthPage(isSignIn: true),
-        '/signin': (BuildContext context) => AuthPage(isSignIn: true),
-        '/signup': (BuildContext context) => AuthPage(isSignIn: false),
+        '/': (BuildContext context) => AuthOptions(),
+        '/signIn': (BuildContext context) => AuthPage(isSignIn: true),
+        '/signUp': (BuildContext context) => AuthPage(isSignIn: false),
         '/forgotPassword': (BuildContext context) => ForgotPassword()
       },
     );

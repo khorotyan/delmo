@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:ui';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -23,36 +24,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context))),
         body: Container(
             alignment: Alignment(0.0, 0.0),
             decoration: BoxDecoration(image: _getBackgroundImage()),
-            child: Container(
-                width: _getAuthPageWidth(),
-                child: Form(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                      _buildAppTitle(),
-                      SizedBox(height: 36.0),
-                      _buildDescriptionText(),
-                      SizedBox(height: 46.0),
-                      _buildEmailInputField(),
-                      SizedBox(height: 54.0),
-                      _buildSendButton()
-                    ])))));
+            child: Stack(alignment: Alignment.center, children: <Widget>[
+              BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                  child: Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white.withOpacity(0.0)))),
+              AppBar(backgroundColor: Colors.transparent, elevation: 0.0),
+              Container(
+                  width: _getAuthPageWidth(),
+                  child: Form(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                        _buildAppTitle(),
+                        SizedBox(height: 36.0),
+                        _buildDescriptionText(),
+                        SizedBox(height: 46.0),
+                        _buildEmailInputField(),
+                        SizedBox(height: 54.0),
+                        _buildSendButton()
+                      ]))),
+            ])));
   }
 
   DecorationImage _getBackgroundImage() {
     return DecorationImage(
         fit: BoxFit.cover,
         colorFilter:
-            ColorFilter.mode(Colors.red.withOpacity(0.1), BlendMode.multiply),
-        image: AssetImage('images/login_background.jpg'));
+            ColorFilter.mode(Colors.red.withOpacity(0.05), BlendMode.srcOver),
+        image: AssetImage('images/auth_background.jpg'));
   }
 
   double _getAuthPageWidth() {

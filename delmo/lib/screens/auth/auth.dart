@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'index.dart';
+import 'dart:ui';
 
 class AuthPage extends StatefulWidget {
   final bool isSignIn;
@@ -82,36 +82,50 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _getSignInScaffoldBody() {
     return Container(
-      alignment: Alignment(0.0, 0.0),
-      decoration: BoxDecoration(image: _getBackgroundImage()),
-      child: SingleChildScrollView(
-          child: Container(
         alignment: Alignment(0.0, 0.0),
-        width: _getAuthPageWidth(),
-        child:
-            Form(key: _formKey, child: Column(children: _getSignInWidgets())),
-      )),
-    );
+        decoration: BoxDecoration(image: _getBackgroundImage()),
+        child: Stack(alignment: Alignment(0.0, 0.0), children: <Widget>[
+          BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+              child: Container(
+                  decoration:
+                      BoxDecoration(color: Colors.white.withOpacity(0.0)))),
+          AppBar(backgroundColor: Colors.transparent, elevation: 0.0),
+          SingleChildScrollView(
+              child: Container(
+            alignment: Alignment(0.0, 0.0),
+            width: _getAuthPageWidth(),
+            child: Form(
+                key: _formKey, child: Column(children: _getSignInWidgets())),
+          ))
+        ]));
   }
 
   Widget _getSignUpScaffoldBody() {
     return Container(
-      alignment: Alignment(0.0, 0.0),
-      decoration: BoxDecoration(image: _getBackgroundImage()),
-      child: Column(children: <Widget>[
-        Spacer(),
-        Container(
-          alignment: Alignment(0.0, 0.0),
-          width: _getAuthPageWidth(),
-          child:
-              Form(key: _formKey, child: Column(children: _getSignUpWidgets())),
-        ),
-        Spacer(),
-        Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: _buildSignUpFooter())
-      ]),
-    );
+        alignment: Alignment(0.0, 0.0),
+        decoration: BoxDecoration(image: _getBackgroundImage()),
+        child: Stack(children: <Widget>[
+          BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+              child: Container(
+                  decoration:
+                      BoxDecoration(color: Colors.white.withOpacity(0.0)))),
+          AppBar(backgroundColor: Colors.transparent, elevation: 0.0),
+          Column(children: <Widget>[
+            Spacer(),
+            Container(
+              alignment: Alignment(0.0, 0.0),
+              width: _getAuthPageWidth(),
+              child: Form(
+                  key: _formKey, child: Column(children: _getSignUpWidgets())),
+            ),
+            Spacer(),
+            Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: _buildSignUpFooter())
+          ])
+        ]));
   }
 
   List<Widget> _getSignInWidgets() {
@@ -150,10 +164,10 @@ class _AuthPageState extends State<AuthPage> {
         child: ButtonTheme(
             minWidth: double.maxFinite,
             child: FlatButton(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(0.15),
                 child: Text("Don't have an account? Sign up",
                     style: TextStyle(color: Colors.white)),
-                onPressed: () => Navigator.pushNamed(context, '/signup'))));
+                onPressed: () => Navigator.pushNamed(context, '/signUp'))));
   }
 
   double _getAuthPageWidth() {
@@ -168,8 +182,8 @@ class _AuthPageState extends State<AuthPage> {
     return DecorationImage(
         fit: BoxFit.cover,
         colorFilter:
-            ColorFilter.mode(Colors.red.withOpacity(0.1), BlendMode.multiply),
-        image: AssetImage('images/login_background.jpg'));
+            ColorFilter.mode(Colors.red.withOpacity(0.05), BlendMode.srcOver),
+        image: AssetImage('images/auth_background.jpg'));
   }
 
   Text _buildPageName() {
@@ -340,7 +354,7 @@ class _AuthPageState extends State<AuthPage> {
   FlatButton _buildAlreadyAMemberButton() {
     return FlatButton(
         child: Text('Already a member?', style: TextStyle(color: Colors.white)),
-        onPressed: () => Navigator.pushNamed(context, '/signin'));
+        onPressed: () => Navigator.pushNamed(context, '/signIn'));
   }
 
   FlatButton _buildForgotPasswordButton() {
