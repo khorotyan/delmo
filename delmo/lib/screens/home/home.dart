@@ -41,6 +41,13 @@ class _HomeState extends State<Home> {
           _onBackClick();
         },
         child: Scaffold(
+            appBar: AppBar(
+                leading: IconButton(
+                    icon: Icon(Icons.photo_camera), onPressed: () {}),
+                title: Text('Delmo'),
+                actions: <Widget>[
+                  IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
+                ]),
             body: PageView(controller: _pageController, children: <Widget>[
               RatePeople(),
               Suggestions(),
@@ -48,15 +55,24 @@ class _HomeState extends State<Home> {
               Leaderboard(),
               Profile()
             ]),
-            bottomNavigationBar: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  _buildNavigationItem(Icons.rate_review, 0),
-                  _buildNavigationItem(Icons.favorite, 1),
-                  _buildNavigationItem(Icons.message, 2),
-                  _buildNavigationItem(Icons.compare, 3),
-                  _buildNavigationItem(Icons.person, 4)
-                ])));
+            bottomNavigationBar: Container(
+              height: 50.0,
+                color: Colors.black.withAlpha(6),
+                child: Column(children: <Widget>[
+                  Container(height: 1.0,
+                    color: Colors.black.withAlpha(7)),
+                  Container(height: 1.0,
+                    color: Colors.black.withAlpha(14)),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        _buildNavigationItem(Icons.rate_review, 0),
+                        _buildNavigationItem(Icons.favorite, 1),
+                        _buildNavigationItem(Icons.message, 2),
+                        _buildNavigationItem(Icons.compare, 3),
+                        _buildNavigationItem(Icons.person, 4)
+                      ])
+                ]))));
   }
 
   Widget _buildNavigationItem(IconData iconImage, int page) {
