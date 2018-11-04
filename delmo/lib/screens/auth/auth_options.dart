@@ -32,7 +32,7 @@ class _AuthOptionsState extends State<AuthOptions> {
             _buildAppSlogan(),
             Spacer(flex: 3),
             _buildJoinButton(),
-            SizedBox(height: 26.0),
+            SizedBox(height: 28.0),
             _buildLoginButton(),
             SizedBox(height: 46.0)
           ])),
@@ -63,8 +63,8 @@ class _AuthOptionsState extends State<AuthOptions> {
 
   ButtonTheme _buildJoinButton() {
     return ButtonTheme(
-        minWidth: 300.0,
-        height: 51.0,
+        minWidth: MediaQuery.of(context).size.width * 0.72,
+        height: MediaQuery.of(context).size.width * 0.72 / 5.6,
         child: RaisedButton(
             child: Text('JOIN DELMO',
                 style: TextStyle(
@@ -78,8 +78,8 @@ class _AuthOptionsState extends State<AuthOptions> {
 
   ButtonTheme _buildLoginButton() {
     return ButtonTheme(
-        minWidth: 300.0,
-        height: 51.0,
+        minWidth: MediaQuery.of(context).size.width * 0.72,
+        height: MediaQuery.of(context).size.width * 0.72 / 5.6,
         child: RaisedButton(
             color: Colors.white,
             child: Text('LOGIN',

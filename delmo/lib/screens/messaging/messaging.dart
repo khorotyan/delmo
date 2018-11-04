@@ -37,7 +37,7 @@ class _MessagingState extends State<Messaging> {
     'You: Hey cutie, how are you?',
     'I am totally into you ^_^',
     'Stop texting me you creep!',
-    'Is your name Google? Because you have everything I’ve been searching for',
+    'You: Is your name Google? Because you have everything I’ve been searching for',
     'You: Hi, how was heaven when you left it?',
     'See ya soon ;)'
   ];
@@ -100,10 +100,10 @@ class _MessagingState extends State<Messaging> {
                 _buildConversationInfo(index)
               ])),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
-            child: Divider(
-            height: 2.0,
-          ))
+              margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
+              child: Divider(
+                height: 2.0,
+              ))
         ]),
         onTap: () {});
   }
@@ -135,17 +135,17 @@ class _MessagingState extends State<Messaging> {
     return Container(
         margin: EdgeInsets.only(left: horizontalMargin),
         child: Stack(alignment: Alignment.center, children: <Widget>[
-      Container(
-          alignment: Alignment.center,
-          width: 66.0,
-          height: 66.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage(images[index])),
-          )),
-      _buildOnlineIndicator(index)
-    ]));
+          Container(
+              alignment: Alignment.center,
+              width: 66.0,
+              height: 66.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage(images[index])),
+              )),
+          _buildOnlineIndicator(index)
+        ]));
   }
 
   Widget _buildOnlineIndicator(int index) {
@@ -179,8 +179,8 @@ class _MessagingState extends State<Messaging> {
   Widget _buildConversationLastMessage(int index) {
     return Flexible(
         child: Container(
-            width: 300.0,
-            padding: EdgeInsets.only(top: 3.0),
+          width: MediaQuery.of(context).size.width * 0.7,
+            padding: EdgeInsets.only(top: 3.0, right: horizontalMargin * 2),
             child: Text(messages[index],
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.grey))));
