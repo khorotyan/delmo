@@ -50,7 +50,12 @@ flutter:
    - images/auth_background.jpg
    - images/user1_profile1.jpg
    - images/user2_profile1.jpg
-   - images/circle.jpg
+   - images/user3_profile1.jpg
+   - images/user4_profile1.jpg
+   - images/user5_profile1.jpg
+   - images/user6_profile1.jpg
+   - images/user7_profile1.jpg
+   - images/user8_profile1.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
